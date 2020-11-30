@@ -1,0 +1,10 @@
+.menu-nav a span {
+    color: rgba(0, 0, 0, 0.54);
+    
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.menu-nav a {
+    text-decoration: none;
+}

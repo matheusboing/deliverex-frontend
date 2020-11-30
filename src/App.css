@@ -1,0 +1,14 @@
+
+
+button:not(.MuiButton-outlined):not(.MuiButton-text) {
+    font-weight: bold!important;
+}
+
+button.success {
+    background: #49BF5A;
+    color: white
+}
+
+button.success:hover {
+    background: #1B8029;
+}
