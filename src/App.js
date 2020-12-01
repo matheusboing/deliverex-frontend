@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Dashboard from "./components/Dashboard/Dashboard";
 import ItensList from "./components/Itens/ItensList/ItensList";
 import PedidosList from "./components/Pedidos/PedidosList/PedidosList";
 import Header from "./components/Header/Header";
@@ -14,13 +13,10 @@ export default function App() {
         <Header />
         <Container maxWidth="md">
           <Switch>
-            <Route exact path="/">
-              <Dashboard />
-            </Route>
             <Route exact path="/itens">
               <ItensList />
             </Route>
-            <Route exact path="/pedidos">
+            <Route path="*">
               <PedidosList />
             </Route>
           </Switch>
