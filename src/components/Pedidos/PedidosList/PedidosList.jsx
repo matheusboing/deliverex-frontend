@@ -14,8 +14,8 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import api from "../../../api";
 import PedidoDialog from "../PedidoDialog/PedidoDialog";
-import PedidoDeleteDialog from "../PedidoDeleteDialog/PedidoDeleteDialog";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ConfirmacaoDialog from "../ConfirmacaoDialog/ConfirmacaoDialog"
 
 export default function PedidosList() {
   const [pedidos, setPedidos] = useState([]);
@@ -38,6 +38,10 @@ export default function PedidosList() {
   function deletarPedido(pedido) {
     setPedidoSelecionado(pedido);
     setOpenPedidoDeleteDialog(true);
+  }
+
+  function acaoDeletarPedido() {
+    api.delete(`/pedidos/${pedidoSelecionado.id}`).then(() => setReload(true));
   }
 
   useEffect(() => {
@@ -91,7 +95,7 @@ export default function PedidosList() {
               <TableRow key={pedido.id}>
                 <TableCell>{pedido.id}</TableCell>
                 <TableCell>{pedido.descricao}</TableCell>
-                <TableCell>{pedido.situacao}</TableCell>
+                <TableCell>{pedido.situacao == "EmAnalise"? "Em análise" : pedido.situacao}</TableCell>
                 <TableCell>$ {pedido.valorTotal}</TableCell>
                 <TableCell>
                   <ButtonGroup
@@ -122,12 +126,13 @@ export default function PedidosList() {
         setOpen={setOpenPedidoDialog}
         setReload={setReload}
       />
-      <PedidoDeleteDialog
-        pedido={pedidoSelecionado}
+      <ConfirmacaoDialog
         setOpen={setOpenPedidoDeleteDialog}
         open={openPedidoDeleteDialog}
-        setPedido={setPedidoSelecionado}
-        setReload={setReload}
+        titulo="Confirme a exclusão"
+        mensagem={`Realmente deseja excluir o pedido #${pedidoSelecionado}?`}
+        confirmar="Excluir"
+        acaoConfirmacao={acaoDeletarPedido}
       />
     </>
   );

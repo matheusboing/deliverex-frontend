@@ -4,17 +4,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
-import api from '../../../api'
 
-export default function PedidoDeleteDialog(props) {
+export default function ConfirmacaoDialog(props) {
 
     const handleClose = () => {
         props.setOpen(false)
     }
 
-    const confirmarDelecao = () => {
-        api.delete(`/pedidos/${props.pedido.id}`).then(() => props.setReload(true));
-        handleClose();
+    const executar = () => {
+      props.acaoConfirmacao();
+      handleClose();
     }
 
     return (
@@ -24,16 +23,16 @@ export default function PedidoDeleteDialog(props) {
       open={props.open}
       onClose={handleClose}
     >
-      <DialogTitle id="confirmation-dialog-title">Confirme a exclusão</DialogTitle>
+      <DialogTitle id="confirmation-dialog-title">{props.titulo ?? "Confirme a ação"}</DialogTitle>
       <DialogContent dividers>
-          Realmente deseja excluir o pedido #{props.pedido.id}?
+          {props.mensagem}
       </DialogContent>
       <DialogActions>
         <Button autoFocus color="primary" onClick={handleClose}>
-          Cancelar
+          {props.cancelar ?? "Cancelar"}
         </Button>
-        <Button  color="primary" onClick={confirmarDelecao}>
-          Excluir
+        <Button  color="primary" onClick={executar}>
+          {props.confirmar ?? "Confirmar"}
         </Button>
       </DialogActions>
     </Dialog>

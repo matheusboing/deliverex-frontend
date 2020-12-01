@@ -27,6 +27,7 @@ import api from "../../../api";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MuiAlert from "@material-ui/lab/Alert";
+import ConfirmacaoDialog from "../ConfirmacaoDialog/ConfirmacaoDialog"
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -59,7 +60,10 @@ export default function PedidoDialog(props) {
   const [subTotal, setSubTotal] = useState(0);
   const [totalDesconto, setTotalDesconto] = useState(0);
   const [descricao, setDescricao] = useState("");
+  const [openCancelamentoDialog, setOpenCancelamentoDialog] = useState(false);
+  const [openAprovacaoDialog, setOpenAprovacaoDialog] = useState(false);
 
+  
   const onCodigoChange = (event) => {
     setCodigo(event.target.value);
     setErroCodigo(null);
@@ -144,6 +148,7 @@ export default function PedidoDialog(props) {
     );
     setItemAlterado(!itemAlterado);
     calcularValores(itens);
+    
   };
 
   const adicionarItem = () => {
@@ -282,7 +287,7 @@ export default function PedidoDialog(props) {
                         autoFocus
                         variant="contained"
                         color="secondary"
-                        onClick={() => alterarStatus("Cancelado")}
+                        onClick={() => setOpenCancelamentoDialog(true)}
                       >
                         Cancelar
                       </Button>
@@ -296,7 +301,7 @@ export default function PedidoDialog(props) {
                         onClick={salvarPedido}
                         className="success"
                         style={{ marginLeft: "15px" }}
-                        onClick={() => alterarStatus("Aprovado")}
+                        onClick={() => setOpenAprovacaoDialog(true)}
                       >
                         Aprovar
                       </Button>
@@ -464,6 +469,24 @@ export default function PedidoDialog(props) {
           O pedido deve ter no mínimo um item
         </Alert>
       </Snackbar>
+      <ConfirmacaoDialog
+      setOpen={setOpenAprovacaoDialog}
+      open={openAprovacaoDialog}
+      titulo="Confirme a aprovação"
+      mensagem={`Realmente deseja aprovar o pedido #${props.pedido.id}?`}
+      acaoConfirmacao={() => alterarStatus("Aprovado")}
+      confirmar="Sim"
+      cancelar="Não"
+    />
+    <ConfirmacaoDialog
+        setOpen={setOpenCancelamentoDialog}
+        open={openCancelamentoDialog}
+        titulo="Confirme o cancelamento"
+        mensagem={`Realmente deseja cancelar o pedido #${props.pedido.id}?`}
+        confirmar="Sim"
+        cancelar="Não"
+        acaoConfirmacao={() => alterarStatus("Cancelado")}
+      />
     </>
   );
 }
