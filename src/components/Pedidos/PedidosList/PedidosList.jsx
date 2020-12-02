@@ -130,7 +130,7 @@ export default function PedidosList() {
         setOpen={setOpenPedidoDeleteDialog}
         open={openPedidoDeleteDialog}
         titulo="Confirme a exclusão"
-        mensagem={`Realmente deseja excluir o pedido #${pedidoSelecionado}?`}
+        mensagem={`Realmente deseja excluir o pedido #${pedidoSelecionado.id}?`}
         confirmar="Excluir"
         acaoConfirmacao={acaoDeletarPedido}
       />
